@@ -25,6 +25,11 @@ describe 'full' do
     output(role: :full, name: 'mysql_database_host')
   end
 
+  let(:parameter_group_name) do
+    var(role: :full, name: 'parameter_group_name')
+  end
+
+
   before(:context) do
     apply(role: :full)
   end
@@ -84,6 +89,9 @@ describe 'full' do
 
     its('preferred_maintenance_window') do
       is_expected.to(eq('mon:03:01-mon:05:00'))
+    end
+    its('default_parameter_group_name') do
+      is_expected.to(be_nil)
     end
 
     its('storage_type') { is_expected.to(eq('standard')) }

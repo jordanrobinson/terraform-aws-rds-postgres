@@ -367,6 +367,20 @@ describe 'RDS' do
     end
   end
 
+  describe 'when parameter_group_name provided' do
+    before(:context) do
+      @plan = plan(role: :root) do |vars|
+        vars.parameter_group_name = 'test-parameter-group'
+      end
+    end
+
+    it 'uses the provided value for the assigned parameter group' do
+      expect(@plan)
+        .to(include_resource_creation(type: 'aws_db_instance')
+              .with_attribute_value(:parameter_group_name, 'test-parameter-group'))
+    end
+  end
+
   describe 'when use_multiple_availability_zones is "yes"' do
     before(:context) do
       @plan = plan(role: :root) do |vars|
